@@ -14,9 +14,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
-import { JwtAuthGuard } from 'src/guards/jwt-auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../guards/jwt-auth/jwt-auth.guard';
 import { request } from 'express';
-import { IsAdminGuard } from 'src/guards/is-admin/is-admin.guard';
+import { IsAdminGuard } from '../guards/is-admin/is-admin.guard';
 
 
 @Controller('books')

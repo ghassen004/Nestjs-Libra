@@ -20,10 +20,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     BooksModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.HOST,
-      port: Number(process.env.PORT),
+      host: 'localhost',
+      port: 3306,
       username: 'root',
-      password: 'root',
+      password: '',
       database: 'isids26',
       autoLoadEntities: true,
       synchronize: true,
