@@ -1,32 +1,21 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+  Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch,
+  Post, Put, Query, Req,
+  UseGuards
+
+} from "@nestjs/common";
 import { BooksService } from './books.service';
 import { JwtAuthGuard } from '../guards/jwt-auth/jwt-auth.guard';
-import { request } from 'express';
 import { IsAdminGuard } from '../guards/is-admin/is-admin.guard';
+import { CreateBookDto } from "../DTO/create-book.dto";
 
 
 @Controller('books')
-//@UseGuards(JwtAuthGuard)
 export class BooksController {
   @Inject(BooksService) bookSer: BooksService;
 
   @Get('/all')
   async chercherTousLesLivres(@Req() req: Request) {
-    console.log(req);
     try {
       let data = await this.bookSer.getAllBooks();
       return data;
@@ -34,10 +23,10 @@ export class BooksController {
       console.log(err);
     }
   }
+
   @UseGuards(JwtAuthGuard, IsAdminGuard)
-  //@UseGuards(IsAdminGuard)
   @Post('/new')
-  async ajouterLivre(@Req() req: Request, @Body() body) {
+  async ajouterLivre(@Req() req: Request, @Body() body: CreateBookDto) {
     let data = await this.bookSer.addBook(body, req["user"]["userId"]);
     return { data };
   }
@@ -45,53 +34,47 @@ export class BooksController {
   @UseGuards(JwtAuthGuard)
   @Get('/search/:id')
   async chercherBook(@Param('id', ParseIntPipe) id, @Req() request) {
-    console.log("ROLE", request.user.userRole);
-    
     return this.bookSer.getBookById(id);
   }
 
   @Put('/edit/:id')
-  async modifierBook(@Body() body, @Param('id', ParseIntPipe) id) {
+  async modifierBook(@Body() body: CreateBookDto, @Param('id', ParseIntPipe) id) {
     let response = await this.bookSer.updateBook(body, id);
     return response;
   }
 
   @Delete('remove/:id')
   async removeBook(@Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.removeBook(id);
-    return response;
+    return this.bookSer.removeBook(id);
   }
 
   @Delete('delete/:id')
   async deleteBook(@Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.deleteBook(id);
-    return response;
+    return this.bookSer.deleteBook(id);
   }
+
   @Delete('softdelete/:id')
   async softDeleteBook(@Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.softDeleteBook(id);
-    return response;
+    return this.bookSer.softDeleteBook(id);
   }
-  
+
   @Patch('restore/:id')
   async restoreBook(@Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.restoreBook(id);
-    return response;
+    return this.bookSer.restoreBook(id);
   }
+
   @Patch('recover/:id')
   async recoverBook(@Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.recoverBook(id);
-    return response;
+    return this.bookSer.recoverBook(id);
   }
-  
+
   @Get('stats')
   async nbreLivresParAnnee() {
-    let response = await this.bookSer.nbBooksPerYear();
-    return response;
+    return this.bookSer.nbBooksPerYear();
   }
+
   @Get('stats/v2')
   async nbreLivresParAnneeV2(@Query('year1') year1, @Query('year2') year2) {
-    let response = await this.bookSer.nbBooksPerYearV2(year1, year2);
-    return response;
+    return this.bookSer.nbBooksPerYearV2(year1, year2);
   }
 }

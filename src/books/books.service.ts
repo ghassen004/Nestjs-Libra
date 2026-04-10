@@ -13,7 +13,7 @@ export class BooksService {
     try {
       let tab = await this.bookRepo.find(
         {
-            loadRelationIds : true
+          loadRelationIds : true
         }
       );
       return { listeBooks: tab };
@@ -41,13 +41,13 @@ export class BooksService {
           id: selectedId,
         },
         relations : {
-            author : true
+          author : true
         },
         select : {
-            author : {
-                prenom : true,
-                nom : true
-            }
+          author : {
+            prenom : true,
+            nom : true
+          }
         }
       });
       if (!selectedBooks.length) throw new NotFoundException();
@@ -81,60 +81,60 @@ export class BooksService {
     });
     let response = await this.bookRepo.remove(selectedBook);
     return {
-        message: `Le livre ${response.title} a été supprimé avec succès`,
+      message: `Le livre ${response.title} a été supprimé avec succès`,
     };
-}
+  }
 
-async softDeleteBook(id) {
+  async softDeleteBook(id) {
     let reponse = await this.bookRepo.softDelete(id)
     return reponse;
-}
+  }
 
-async restoreBook(id) {
+  async restoreBook(id) {
     let reponse = await this.bookRepo.restore(id);
     return reponse;
-}
+  }
 
- async recoverBook(selectedId) {
+  async recoverBook(selectedId) {
     let selectedBook = await this.bookRepo.findOneBy({
       id: selectedId,
-      
+
     });
     let response = await this.bookRepo.recover(selectedBook);
     return {
-        message: `Le livre ${response.title} a été restauré avec succès`,
+      message: `Le livre ${response.title} a été restauré avec succès`,
     };
-}
+  }
 
-async softRemoveBook(selectedId) {
-      let selectedBook = await this.bookRepo.findOneBy({
-        id: selectedId,
-      });
+  async softRemoveBook(selectedId) {
+    let selectedBook = await this.bookRepo.findOneBy({
+      id: selectedId,
+    });
     let reponse = await this.bookRepo.softRemove(selectedBook)
     return reponse;
   }
-  
+
   async nbBooksPerYear() {
     let qb = this.bookRepo.createQueryBuilder('book');
     return qb.select('book.year, count(book.id) as NbBooks')
-    .groupBy('book.year')
-    .getRawMany()
+      .groupBy('book.year')
+      .getRawMany()
   }
-  
+
   async nbBooksPerYearV2(y1, y2) {
     let qb = this.bookRepo.createQueryBuilder('book');
     return qb.select('book.year, count(book.id) as NbBooks')
-    .where('book.year >= :yearMin and book.year <= :yearMax', {yearMin : y1, yearMax : y2})
-    //.setParameters({yearMin : y1, yearMax : y2})
-    .groupBy('book.year')
-    .getRawMany()
+      .where('book.year >= :yearMin and book.year <= :yearMax', {yearMin : y1, yearMax : y2})
+      //.setParameters({yearMin : y1, yearMax : y2})
+      .groupBy('book.year')
+      .getRawMany()
   }
-    
-    
-    
-    
-    
-    
-    
-  
+
+
+
+
+
+
+
+
 }

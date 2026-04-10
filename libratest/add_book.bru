@@ -1,0 +1,31 @@
+meta {
+  name: add_book
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/books/new
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc1ODA5NTU4LCJleHAiOjE3NzY0MTQzNTh9.bjlTzcUj4pWwgoVJwnQQxHDBtfarINmCGtgTQH7HI5s
+}
+
+body:json {
+  {
+    "title": " Le Dernier Jour d'un condamné ",
+    "year": 1862,
+    "editor": "A. Lacroix",
+    "image": "https://media.senscritique.com/media/000006016917/300/le_dernier_jour_d_un_condamne.jpg",
+    "author": 1,
+    "user": 2
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

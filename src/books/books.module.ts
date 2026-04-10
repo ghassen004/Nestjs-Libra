@@ -8,7 +8,7 @@ import { AuthorController } from './author.controller';
 import { AuthorService } from './author.service';
 
 @Module({
-    imports : [TypeOrmModule.forFeature([BookEntity, AuthorEntity])],
+  imports : [TypeOrmModule.forFeature([BookEntity, AuthorEntity])],
   controllers: [BooksController, AuthorController],
   providers: [BooksService, AuthorService]
 })

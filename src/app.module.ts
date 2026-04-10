@@ -13,15 +13,17 @@ import { SecondMiddleware } from './middlewares/second/second.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FavorisModule } from "./books/favoris.module";
 
 @Module({
   imports: [
     TasksModule,
     BooksModule,
+    FavorisModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3306,
+      port: 3308,
       username: 'root',
       password: '',
       database: 'isids26',
