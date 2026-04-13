@@ -1,7 +1,9 @@
-import { Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
 
 import { AuthGuard } from '@nestjs/passport';
 import { FavorisService } from "./favoris.services";
+import { JwtAuthGuard } from "../guards/jwt-auth/jwt-auth.guard";
+import { IsAdminGuard } from "../guards/is-admin/is-admin.guard";
 
 @Controller('favoris')
 @UseGuards(AuthGuard('jwt'))
@@ -21,5 +23,17 @@ export class FavorisController {
   @Get()
   findAll(@Req() req) {
     return this.favorisService.findByUser(+req.user.userId)  // ← userId
+  }
+
+  @UseGuards(JwtAuthGuard, IsAdminGuard)
+  @Get('stats/total')
+  totalFavoris() {
+    return this.favorisService.totalFavoris();
+  }
+
+  @UseGuards(JwtAuthGuard, IsAdminGuard)
+  @Get('stats/most-favourited')
+  mostFavourited(@Query('limit') limit?: string) {
+    return this.favorisService.mostFavouritedBooks(limit ? +limit : 10);
   }
 }

@@ -5,11 +5,16 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/favoris/1
+  url: http://localhost:3000/favoris/2
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc1ODM2ODMwLCJleHAiOjE3NzY0NDE2MzB9.Yq7jNuz7jRMe1BLIubXrV9PfwuPSgiOLL1IcZllUcfs
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

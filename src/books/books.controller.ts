@@ -38,9 +38,11 @@ export class BooksController {
   }
 
   @Put('/edit/:id')
-  async modifierBook(@Body() body: CreateBookDto, @Param('id', ParseIntPipe) id) {
-    let response = await this.bookSer.updateBook(body, id);
-    return response;
+  async modifierBook(
+    @Body() body: CreateBookDto,
+    @Param('id', ParseIntPipe) id: number
+  ) {
+    return this.bookSer.updateBook(id, body);
   }
 
   @Delete('remove/:id')
@@ -68,13 +70,10 @@ export class BooksController {
     return this.bookSer.recoverBook(id);
   }
 
+  @UseGuards(JwtAuthGuard, IsAdminGuard)
   @Get('stats')
   async nbreLivresParAnnee() {
     return this.bookSer.nbBooksPerYear();
   }
 
-  @Get('stats/v2')
-  async nbreLivresParAnneeV2(@Query('year1') year1, @Query('year2') year2) {
-    return this.bookSer.nbBooksPerYearV2(year1, year2);
-  }
 }
